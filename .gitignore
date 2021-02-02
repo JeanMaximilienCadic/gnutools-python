@@ -1,6 +1,7 @@
 etc
 .idea
 .git
+*.pyc
 *__pycache__*
 *__data__*
 etc/path/__init__.py
