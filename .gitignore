@@ -1,0 +1,8 @@
+etc
+.idea
+.git
+*__pycache__*
+*__data__*
+etc/path/__init__.py
+etc/path/__init__.py.git
+build/lib/gnutools/path/__init__.py
