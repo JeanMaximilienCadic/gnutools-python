@@ -1,4 +1,1 @@
 numpy
-PyJson
-PyYaml
-pandas
