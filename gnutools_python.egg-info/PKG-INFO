@@ -1,0 +1,13 @@
+Metadata-Version: 1.2
+Name: gnutools-python
+Version: 2.0a1
+Summary: GNU Tools for python
+Home-page: https://github.com/JeanMaximilienCadic/gnutools-python
+Author: Jean Maximilien Cadic
+Author-email: j.cadic@pm.me
+License: MIT
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3.6
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.6

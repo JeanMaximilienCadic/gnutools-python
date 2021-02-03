@@ -162,19 +162,3 @@ def extension(f):
     return ext(f)
 
 
-def path2modules(root):
-    """
-    Return the list of python modules from a library specific by its path.
-
-    :param root:
-    :return:
-    """
-    def path2module(m):
-        return f"{lib_name}.{m.split('/' + lib_name)[1][1:].replace('/', '.')}"
-    lib_name = name(root)
-    modules = set([parent(file) for file in listfiles(root, [".py"])])
-    modules = [path2module(m) for m in modules]
-    modules = sorted(set([m for m in modules  if not ("__pycache__" in m or m[-1]==".")]))
-    return modules
-
-

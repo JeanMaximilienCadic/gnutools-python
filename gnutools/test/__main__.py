@@ -1,3 +1,4 @@
-from .functional import test_imports
 import os
-test_imports(os.path.realpath("gnutools"))
+from .functional import test_imports
+from gnutools.fs import parent
+test_imports(parent(os.path.realpath(__file__), level=2))
