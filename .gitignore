@@ -8,3 +8,4 @@ etc
 etc/path/__init__.py
 etc/path/__init__.py.git
 build/lib/gnutools/path/__init__.py
+build_wheel.sh
