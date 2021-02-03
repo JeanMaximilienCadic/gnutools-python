@@ -21,7 +21,7 @@ def test_imports(root):
     lib_name = name(root)
     modules = set([parent(file) for file in listfiles(root, [".py"])])
     modules = [path2module(m) for m in modules]
-    modules = set([m for m in modules  if not ("__pycache__" in m or m[-1]==".")])
+    modules = sorted(set([m for m in modules  if not ("__pycache__" in m or m[-1]==".")]))
     [try_import(m) for m in modules]
 
 
