@@ -6,17 +6,7 @@ import os
 import yaml
 from argparse import Namespace
 from gnutools.fs import listfiles, parent, name, contain_filter
-
-
-def yaml2space(file, key="args"):
-    """
-    Convert yaml configuration from dict to namespace
-    :param file:
-    :param key:
-    :return:
-    """
-    return Namespace(**yaml.load(open(file))[key])
-
+import yaml
 
 def system(command):
     """
@@ -128,4 +118,12 @@ def regroup_by_parent(dir_data, patterns=["*"]):
         except:
             data[parent(file)] = [file]
     return data
+
+
+def load_config(file):
+    conf = yaml.load(open(file, "r"), Loader=yaml.FullLoader)
+    ns = Namespace(**conf)
+    return ns
+
+
 
