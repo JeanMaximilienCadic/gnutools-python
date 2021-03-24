@@ -1,3 +1,2 @@
 pyYaml
-py-json
 numpy
