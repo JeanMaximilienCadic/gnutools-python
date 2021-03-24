@@ -1,5 +1,7 @@
 import subprocess
 import os
+import yaml
+from argparse import Namespace
 
 
 def list_folders(root):
@@ -179,5 +181,17 @@ def path2modules(root):
     modules = [path2module(m) for m in modules]
     modules = sorted(set([m for m in modules  if not ("__pycache__" in m or m[-1]==".")]))
     return modules
+
+
+
+def load_config():
+    conf = yaml.load(open("nmesh.yml", "r"), Loader=yaml.FullLoader)
+    ns = Namespace(**conf)
+    return ns
+
+
+
+
+
 
 

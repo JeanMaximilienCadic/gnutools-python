@@ -3,10 +3,7 @@ import random
 import string
 import numpy as np
 import os
-import yaml
-from argparse import Namespace
 from gnutools.fs import listfiles, parent, name, contain_filter
-import yaml
 
 def system(command):
     """
@@ -118,12 +115,4 @@ def regroup_by_parent(dir_data, patterns=["*"]):
         except:
             data[parent(file)] = [file]
     return data
-
-
-def load_config(file):
-    conf = yaml.load(open(file, "r"), Loader=yaml.FullLoader)
-    ns = Namespace(**conf)
-    return ns
-
-
 
