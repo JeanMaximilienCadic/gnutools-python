@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='gnutools-python',
-    version="2.0a1",
+    version="1.0.1",
     long_description="",
     packages=[
         "gnutools.audio",
