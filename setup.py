@@ -1,13 +1,15 @@
 from setuptools import setup
-
+from gnutools import __version__
 setup(
     name='gnutools-python',
-    version="1.0.1",
+    version=__version__,
     long_description="",
     packages=[
         "gnutools.audio",
         "gnutools.fs",
         "gnutools.test",
+        "gnutools.concurrent",
+        "gnutools.grid",
         "gnutools.utils",
     ],
     include_package_data=True,

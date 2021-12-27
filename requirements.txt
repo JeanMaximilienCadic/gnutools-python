@@ -1,2 +1,4 @@
 pyYaml
 numpy
+rich
+tabulate

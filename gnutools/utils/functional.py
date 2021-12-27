@@ -5,7 +5,7 @@ import numpy as np
 import os
 from gnutools.fs import listfiles, parent, name, contain_filter
 from argparse import Namespace
-
+import yaml
 
 def RecNamespace(d):
     results = {}
@@ -135,3 +135,5 @@ def regroup_by_parent(dir_data, patterns=["*"]):
             data[parent(file)] = [file]
     return data
 
+def load_yaml(filepath):
+    return RecNamespace(yaml.load(open(filepath, "r"), Loader=yaml.FullLoader))

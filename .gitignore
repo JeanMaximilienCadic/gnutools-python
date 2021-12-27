@@ -1,4 +1,4 @@
-clean.sh
+scripts/clean.sh
 etc
 .idea
 .git
@@ -8,5 +8,5 @@ etc
 etc/path/__init__.py
 etc/path/__init__.py.git
 build/lib/gnutools/path/__init__.py
-build_wheel.sh
+scripts/build_wheel.sh
 *sync-*
