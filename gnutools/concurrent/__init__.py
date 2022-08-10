@@ -57,7 +57,7 @@ class ProcessPoolExecutorBar:
                         self._results.append(None)
                     self._exceptions.append(_exception)
                     progress.tasks[0].description = f"{self.description_left(k)} | {self.description_right(k)}"
-                    progress.update(task1, advance=1)
+                    progress.update(task1, advance=1, refresh=True)
 
     def description_right(self, k):
         try:

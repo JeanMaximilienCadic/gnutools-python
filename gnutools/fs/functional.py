@@ -10,7 +10,7 @@ def list_folders(root):
     :param root:
     :return:
     """
-    commands = ["find", os.path.realpath(root), "-type","d"]
+    commands = ["find", os.path.realpath(root), "-type", "d"]
     results = subprocess.check_output(commands)
     return results.decode().split("\n")[1:]
 
@@ -25,6 +25,7 @@ def parent(path, level=1, sep="/", realpath=False):
     :return list:
     """
     path = os.path.realpath(path) if realpath else path
+
     def dir_parent(path, level=1):
         return sep.join(path.split(sep)[:-level])
 
@@ -65,7 +66,8 @@ def check_files(dir, ext):
     :param ext:
     :return list:
     """
-    files_audio_ids = [name(file) for file in os.listdir(dir) if ".{}".format(ext) in file]
+    files_audio_ids = [name(file) for file in os.listdir(
+        dir) if ".{}".format(ext) in file]
     files_audio_ids = [name(file) for file in files_audio_ids
                        if os.path.getsize("{}/{}.{}".format(dir, file, ext)) > 0]
     return ["{}/{}.{}".format(dir, file, ext) for file in files_audio_ids]
@@ -100,14 +102,13 @@ def contain_ext(file, exts=None):
     return extension(file) in exts
 
 
-
 def find_in_file(file, text):
     try:
-        matches=[]
+        matches = []
         for k, line in enumerate(open(file, "r").readlines()):
-            if len(line.split(text))>1:
+            if len(line.split(text)) > 1:
                 matches.append(k)
-        return (matches, file) if len(matches)>0 else None
+        return (matches, file) if len(matches) > 0 else None
     except:
         pass
 
@@ -130,8 +131,10 @@ def listfiles(root, patterns=[], excludes=[], exlude_hidden=False):
         try:
             assert len(file) > 0
             assert not file.__contains__("/.") if exlude_hidden else True
-            assert not string_contains(file, excludes) if len(excludes)>0 else True
-            assert string_contains(file, patterns) if len(patterns)>0 else True
+            assert not string_contains(
+                file, excludes) if len(excludes) > 0 else True
+            assert string_contains(file, patterns) if len(
+                patterns) > 0 else True
             return True
         except AssertionError:
             return False
@@ -143,6 +146,11 @@ def listfiles(root, patterns=[], excludes=[], exlude_hidden=False):
     return files
 
 
+def listparents(*args, **kwargs):
+    folders = list(set([parent(f) for f in listfiles(*args, **kwargs)]))
+    return folders
+
+
 def ext(f):
     """
         Return the extension of a file
@@ -151,7 +159,7 @@ def ext(f):
         :return string:
         """
     splits = f.split("/")[-1].split(".")
-    return splits[1] if len(splits)==2 else ""
+    return splits[1] if len(splits) == 2 else ""
 
 
 def extension(f):
@@ -179,19 +187,12 @@ def path2modules(root):
     lib_name = name(root)
     modules = set([parent(file) for file in listfiles(root, [".py"])])
     modules = [path2module(m) for m in modules]
-    modules = sorted(set([m for m in modules  if not ("__pycache__" in m or m[-1]==".")]))
+    modules = sorted(
+        set([m for m in modules if not ("__pycache__" in m or m[-1] == ".")]))
     return modules
-
 
 
 def load_config(file):
     conf = yaml.load(open(file, "r"), Loader=yaml.FullLoader)
     ns = Namespace(**conf)
     return ns
-
-
-
-
-
-
-
