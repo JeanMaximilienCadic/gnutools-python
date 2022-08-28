@@ -6,6 +6,7 @@ cd scripts
 ./build
 
 # Update git
+cd ../
 VERSION=$(python -c "from gnutools import __version__;print(__version__)")
 rm -r $(find . -type d -iname __pycache__)
 git checkout -b ${VERSION}_auto

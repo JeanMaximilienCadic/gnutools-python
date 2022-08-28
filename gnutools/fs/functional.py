@@ -29,7 +29,11 @@ def parent(path, level=1, sep="/", realpath=False):
     def dir_parent(path, level=1):
         return sep.join(path.split(sep)[:-level])
 
-    return [dir_parent(_path) for _path in path] if type(path) == list else dir_parent(path, level)
+    return (
+        [dir_parent(_path) for _path in path]
+        if type(path) == list
+        else dir_parent(path, level)
+    )
 
 
 def replace_dir(dir_path):
@@ -66,10 +70,14 @@ def check_files(dir, ext):
     :param ext:
     :return list:
     """
-    files_audio_ids = [name(file) for file in os.listdir(
-        dir) if ".{}".format(ext) in file]
-    files_audio_ids = [name(file) for file in files_audio_ids
-                       if os.path.getsize("{}/{}.{}".format(dir, file, ext)) > 0]
+    files_audio_ids = [
+        name(file) for file in os.listdir(dir) if ".{}".format(ext) in file
+    ]
+    files_audio_ids = [
+        name(file)
+        for file in files_audio_ids
+        if os.path.getsize("{}/{}.{}".format(dir, file, ext)) > 0
+    ]
     return ["{}/{}.{}".format(dir, file, ext) for file in files_audio_ids]
 
 
@@ -113,6 +121,10 @@ def find_in_file(file, text):
         pass
 
 
+def listparents(*args, **kwargs):
+    return list(set([parent(f) for f in listfiles(*args, **kwargs)]))
+
+
 def listfiles(root, patterns=[], excludes=[], exlude_hidden=False):
     """
     Similar to os.listdir but with more options in the search and a specific pattern
@@ -121,6 +133,7 @@ def listfiles(root, patterns=[], excludes=[], exlude_hidden=False):
     :param patterns:
     :return:
     """
+
     def string_contains(text, patterns):
         for pattern in patterns:
             if text.__contains__(pattern):
@@ -131,10 +144,8 @@ def listfiles(root, patterns=[], excludes=[], exlude_hidden=False):
         try:
             assert len(file) > 0
             assert not file.__contains__("/.") if exlude_hidden else True
-            assert not string_contains(
-                file, excludes) if len(excludes) > 0 else True
-            assert string_contains(file, patterns) if len(
-                patterns) > 0 else True
+            assert not string_contains(file, excludes) if len(excludes) > 0 else True
+            assert string_contains(file, patterns) if len(patterns) > 0 else True
             return True
         except AssertionError:
             return False
@@ -146,18 +157,13 @@ def listfiles(root, patterns=[], excludes=[], exlude_hidden=False):
     return files
 
 
-def listparents(*args, **kwargs):
-    folders = list(set([parent(f) for f in listfiles(*args, **kwargs)]))
-    return folders
-
-
 def ext(f):
     """
-        Return the extension of a file
+    Return the extension of a file
 
-        :param f:
-        :return string:
-        """
+    :param f:
+    :return string:
+    """
     splits = f.split("/")[-1].split(".")
     return splits[1] if len(splits) == 2 else ""
 
@@ -179,16 +185,19 @@ def path2modules(root):
     :param root:
     :return:
     """
+
     def path2module(m):
         try:
             return f"{lib_name}.{m.split('/' + lib_name + '/')[1].replace('/', '.')}"
         except IndexError:
             return lib_name
+
     lib_name = name(root)
     modules = set([parent(file) for file in listfiles(root, [".py"])])
     modules = [path2module(m) for m in modules]
     modules = sorted(
-        set([m for m in modules if not ("__pycache__" in m or m[-1] == ".")]))
+        set([m for m in modules if not ("__pycache__" in m or m[-1] == ".")])
+    )
     return modules
 
 
