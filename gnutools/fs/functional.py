@@ -3,6 +3,8 @@ import os
 import yaml
 from argparse import Namespace
 
+from gnutools.utils.functional import load_yaml
+
 
 def list_folders(root):
     """
@@ -201,7 +203,10 @@ def path2modules(root):
     return modules
 
 
+# def load_config(file):
+#     conf = yaml.load(open(file, "r"), Loader=yaml.FullLoader)
+#     ns = Namespace(**conf)
+#     return ns
+
 def load_config(file):
-    conf = yaml.load(open(file, "r"), Loader=yaml.FullLoader)
-    ns = Namespace(**conf)
-    return ns
+    return load_yaml(file)
