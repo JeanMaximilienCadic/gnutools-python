@@ -1,3 +1,4 @@
+.vscode
 scripts/clean.sh
 etc
 .idea
