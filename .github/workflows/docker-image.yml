@@ -8,9 +8,10 @@ on:
     branches: ["dev", "master"]
 
 jobs:
-  sandbox:
+  ai3ddst_sandbox:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
     - name: Build the Docker vanilla image
       run: make build_docker_vanilla
     - name: Build the Docker sandbox image
