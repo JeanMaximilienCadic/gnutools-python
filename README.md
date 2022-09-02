@@ -27,10 +27,11 @@ At a granular level, Gnutools is a library that consists of the following compon
 ### Docker
 To build the image with docker-compose
 ```
-sh docker.sh
+make build
+make docker_run_sandbox_cpu
 ```
 
 ### Local
 ```
-python setup.py install
+make install_wheels
 ```

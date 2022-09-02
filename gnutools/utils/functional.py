@@ -3,9 +3,9 @@ import random
 import string
 import numpy as np
 import os
-from gnutools.fs import listfiles, parent, name, contain_filter
 from argparse import Namespace
-
+import yaml
+import re
 
 def RecNamespace(d):
     results = {}
@@ -135,3 +135,22 @@ def regroup_by_parent(dir_data, patterns=["*"]):
             data[parent(file)] = [file]
     return data
 
+def load_yaml(filepath):
+    conf = yaml.load(open(filepath, "r"), Loader=yaml.FullLoader)
+    def replace_variables(d, v):
+        if type(v)==str and v.__contains__("*"):
+            condition = True
+            while condition:    
+                try:
+                    start = [a for a in re.finditer("{{ *", v)][0]
+                    stop = [a for a in re.finditer(" }}", v)][0]
+                    v = v.replace(v[start.start(0):stop.end(0)], str(conf[v[start.end(0)+1:stop.start(0)]]))
+                except:
+                    condition=False
+        return v
+
+            
+    for k, v in conf.items():
+        conf[k] = replace_variables(conf, v)
+        
+    return RecNamespace(conf)
