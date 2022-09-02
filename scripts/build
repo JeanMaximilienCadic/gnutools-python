@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# Compile gnutools-python
-cd ../
-rm -r $(find . -type d -iname "__pycache__")
-python setup.py bdist_wheel && rm -r build *.egg-info
-rm -r $(find . -type d -iname "__pycache__")

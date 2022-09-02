@@ -1,4 +1,0 @@
-#!/bin/sh
-
-cd ../
-docker build . -t cadic/private:gnutools -f docker/Dockerfile

@@ -1,5 +1,0 @@
-#!/bin/sh
-
-./build
-./docker
-docker run --rm --name gnutools -it cadic/private:gnutools

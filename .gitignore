@@ -10,3 +10,4 @@ etc/path/__init__.py.git
 build/lib/gnutools/path/__init__.py
 scripts/build_wheel.sh
 *sync-*
+dist/legacy
