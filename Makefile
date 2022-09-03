@@ -45,7 +45,7 @@ build_docker_sandbox:
 	docker tag $(IMAGE_SANDBOX) $(IMAGE_SANDBOX)_$(VERSION)
 
 # BUILD WHEEL
-build_wheels: build_wheel
+build_wheels: build_wheel clean
 
 install_requirements:
 	@pip install -r requirements.txt
