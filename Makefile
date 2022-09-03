@@ -45,7 +45,7 @@ build_docker_sandbox:
 	docker tag $(IMAGE_SANDBOX) $(IMAGE_SANDBOX)_$(VERSION)
 
 # BUILD WHEEL
-build_wheels: build_wheel
+build_wheels: build_wheel clean
 
 install_requirements:
 	@pip install -r requirements.txt
@@ -53,8 +53,9 @@ install_requirements:
 build_wheel: clean install_requirements
 	# Build the wheels
 	@mv dist/$(PACKAGE_NAME)*.whl dist/legacy/ || true; \
-		python setup.py bdist_wheel \
-
+		python setup.py bdist_wheel
+	@make clean
+	
 # PUSH
 push_dockers: push_docker_vanilla push_docker_sandbox
 
@@ -92,8 +93,7 @@ docker_run_sandbox_gpu:
 
 # COMMON
 clean:
-	@find . -name "*.pyc" | xargs rm -f && \
-		find . -name "__pycache__" | xargs rm -rf
+	@rm -r build *.egg-info *__pycache__* || true
 
 checkout:
 	# Update git

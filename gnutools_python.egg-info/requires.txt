@@ -1,5 +1,0 @@
-pyYaml
-numpy
-rich
-tabulate
-rich
