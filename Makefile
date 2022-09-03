@@ -93,7 +93,9 @@ docker_run_sandbox_gpu:
 # COMMON
 clean:
 	@find . -name "*.pyc" | xargs rm -f && \
-		find . -name "__pycache__" | xargs rm -rf
+		find . -name "__pycache__" | xargs rm -rf \
+		find . -name "build" | xargs rm -rf \
+		find . -name "*egg-info" | xargs rm -rf
 
 checkout:
 	# Update git
