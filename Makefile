@@ -24,10 +24,6 @@ DOCKER_OPTS ?= \
 
 VERSION=$(shell python -c 'from $(PACKAGE_NAME) import __version__;print(__version__)')
 
-# Ensure that we have a configuration file
-$(conf_file):
-	$(error Please create a '$(conf_file)' file first, for example by copying example_conf.env. No '$(conf_file)' found)
-
 help:
 	@echo "Usage: make {build,  bash, ...}"
 	@echo "Please check README.md for instructions"
@@ -57,7 +53,7 @@ install_requirements:
 build_wheel: clean install_requirements
 	# Build the wheels
 	@mv dist/$(PACKAGE_NAME)*.whl dist/legacy/ || true; \
-		python setup.py bdist_wheel && rm -r build *.egg-info; \
+		python setup.py bdist_wheel \
 
 # PUSH
 push_dockers: push_docker_vanilla push_docker_sandbox
