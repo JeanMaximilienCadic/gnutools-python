@@ -1,1 +1,0 @@
-from gnutools.grid.grid import Grid, score

@@ -53,8 +53,8 @@ install_requirements:
 build_wheel: clean install_requirements
 	# Build the wheels
 	@mv dist/$(PACKAGE_NAME)*.whl dist/legacy/ || true; \
-		python setup.py bdist_wheel \
-
+		python setup.py bdist_wheel
+	@make clean
 # PUSH
 push_dockers: push_docker_vanilla push_docker_sandbox
 
