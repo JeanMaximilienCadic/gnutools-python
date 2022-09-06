@@ -2,7 +2,8 @@
 
 --------------------------------------------------------------------------------
 
-Gnutools is a Python package that provides two high-level features:
+Gnutools is a Python package that provides a few perks:
+- Up to 3x speedup processing the disk by using system commands instead of python libs.
 - A simple interface with optimized command executed from the system.
 - A list of functions to ease the file processing in python.
 
@@ -35,3 +36,18 @@ make docker_run_sandbox_cpu
 ```
 make install_wheels
 ```
+
+## Benchmark
+* Pathlib 10.1s to scan 856631 files
+```
+from pathlib import Path
+results = [f for f in Path("/mnt/hdd/backup/ASR").glob("**/*.wav")]
+```
+
+* gnutools 3.7s to scan 856631 files
+```
+from gnutools.fs import listfiles
+results = listfiles("/mnt/hdd/backup/ASR", [".wav"])
+```
+
+
