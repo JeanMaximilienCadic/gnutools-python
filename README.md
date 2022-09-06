@@ -90,6 +90,7 @@ setup(
         "gnutools.utils",
     ],
     long_description="".join(open("README.md", "r").readlines()),
+    long_description_content_type='text/markdown',
     include_package_data=True,
     url="https://github.com/JeanMaximilienCadic/gnutools-python",
     license="MIT",
@@ -99,7 +100,7 @@ setup(
     author_email="git@cadic.jp",
     description="GNU Tools for python",
     classifiers=[
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
         "License :: OSI Approved :: MIT License",
     ],
 )
