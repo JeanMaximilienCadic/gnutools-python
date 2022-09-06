@@ -14,6 +14,7 @@ setup(
         "gnutools.utils",
     ],
     long_description="".join(open("README.md", "r").readlines()),
+    long_description_content_type='text/markdown',
     include_package_data=True,
     url="https://github.com/JeanMaximilienCadic/gnutools-python",
     license="MIT",
