@@ -105,7 +105,7 @@ install_wheels:
 	pip install dist/deps/*.whl; pip install dist/*.whl
 
 tests:
-	docker run -i  $(IMAGE_SANDBOX) python -m ai3ddst.tests
+	docker run -i  $(IMAGE_SANDBOX) python -m gnutools.tests
 
 # ALL
 all: build checkout push_dockers
