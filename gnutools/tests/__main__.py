@@ -1,4 +1,8 @@
 import os
-from .functional import test_imports
+
 from gnutools.fs import parent
-test_imports(parent(os.path.realpath(__file__), level=2))
+
+from gnutools.tests.functional import test_imports
+
+if __name__ == "__main__":
+    test_imports(parent(os.path.realpath(__file__), level=2))

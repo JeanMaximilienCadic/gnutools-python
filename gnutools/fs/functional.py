@@ -187,7 +187,7 @@ def path2modules(root):
     def path2module(m):
         try:
             module = m.split(lib_name)[-1].replace("/", ".")[1:]
-            return f"{lib_name}.{module}"
+            return f"{lib_name}.{module}" if not module=="" else lib_name
         except IndexError:
             return lib_name
 
