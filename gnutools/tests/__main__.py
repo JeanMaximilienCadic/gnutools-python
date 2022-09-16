@@ -1,7 +1,6 @@
 import os
 
 from gnutools.fs import parent
-
 from gnutools.tests.functional import test_imports
 
 if __name__ == "__main__":
