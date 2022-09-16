@@ -186,24 +186,21 @@ def path2modules(root):
 
     def path2module(m):
         try:
-            return f"{lib_name}.{m.split('/' + lib_name + '/')[1].replace('/', '.')}"
+            module = m.split(lib_name)[-1].replace("/", ".")[1:]
+            return f"{lib_name}.{module}"
         except IndexError:
             return lib_name
 
     lib_name = name(root)
     modules = set([parent(file) for file in listfiles(root, [".py"])])
-    modules = [path2module(m) for m in modules]
-    modules = sorted(
-        set([m for m in modules if not ("__pycache__" in m or m[-1] == ".")])
+    modules = set(
+        [path2module(m) for m in modules if not m.__contains__("__pycache__")]
     )
+    modules = sorted(modules)
     return modules
 
 
-# def load_config(file):
-#     conf = yaml.load(open(file, "r"), Loader=yaml.FullLoader)
-#     ns = Namespace(**conf)
-#     return ns
-
 def load_config(file):
     from gnutools.utils.functional import load_yaml
+
     return load_yaml(file)
