@@ -45,16 +45,15 @@ build_docker_sandbox:
 	docker tag $(IMAGE_SANDBOX) $(IMAGE_SANDBOX)_$(VERSION)
 
 # BUILD WHEEL
-build_wheels: build_wheel clean
+build_wheels: build_wheel
 
 install_requirements:
 	@pip install -r requirements.txt
 
-build_wheel: clean install_requirements
+build_wheel: install_requirements
 	# Build the wheels
 	@mv dist/$(PACKAGE_NAME)*.whl dist/legacy/ || true; \
 		python setup.py bdist_wheel
-	@make clean
 
 # PUSH
 push_dockers: push_docker_vanilla push_docker_sandbox
@@ -79,22 +78,13 @@ pull_docker_sandbox:
 	docker pull $(IMAGE_SANDBOX)
 
 # DOCKER RUNs
-docker_run_sandbox_cpu:
-	@docker stop dev_$(PACKAGE_NAME)_sandbox || true
-	@docker rm dev_$(PACKAGE_NAME)_sandbox || true
-	docker run --name dev_$(PACKAGE_NAME)_sandbox ${DOCKER_OPTS} -dt $(IMAGE_SANDBOX)
-	docker exec -it dev_$(PACKAGE_NAME)_sandbox bash
-
-docker_run_sandbox_gpu:
-	@docker stop dev_$(PACKAGE_NAME)_sandbox || true
-	@docker rm dev_$(PACKAGE_NAME)_sandbox || true
-	@docker run --name dev_$(PACKAGE_NAME)_sandbox ${DOCKER_OPTS} --gpus all -dt $(IMAGE_SANDBOX)
-	docker exec -it dev_$(PACKAGE_NAME)_sandbox bash
+sandbox:
+	@docker stop $(PACKAGE_NAME) || true
+	@docker rm $(PACKAGE_NAME) || true
+	docker run --name $(PACKAGE_NAME) ${DOCKER_OPTS} -dt $(IMAGE_SANDBOX)
+	docker exec -it $(PACKAGE_NAME) bash
 
 # COMMON
-clean:
-	@rm -r build *.egg-info *__pycache__* || true
-
 checkout:
 	# Update git
 	@git checkout -b $(VERSION)_auto || true; \
@@ -102,10 +92,10 @@ checkout:
 		git push origin $(VERSION)_auto
 
 install_wheels:
-	pip install dist/deps/*.whl; pip install dist/*.whl
+	pip install dist/*.whl
 
 tests:
-	docker run -i  $(IMAGE_SANDBOX) python -m gnutools.tests
+	python -m gnutools.tests
 
 # ALL
 all: build checkout push_dockers

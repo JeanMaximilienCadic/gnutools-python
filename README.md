@@ -6,16 +6,14 @@
   <br>
 </h1>
 
-
 <p align="center">
   <a href="#modules">Modules</a> •
-  <a href="#code-design">Code Design</a> •
-  <a href="#code-structure">Code Structure</a> •
-  <a href="#how-to-use">How To Use</a> •
-  <a href="#docker">Docker</a> •
-  <a href="#pythonenv">PythonEnv</a> •
-  <a href="#benchmark">Benchmark</a> •
-  <a href="#resssource">Ressources</a> •
+  <a href="#code-structure">Code structure</a> •
+  <a href="#installing-the-application">Installing the application</a> •
+  <a href="#makefile-commands">Makefile commands</a> •
+  <a href="#environments">Environments</a> •
+  <a href="#running-the-application">Running the application</a>
+  <a href="#ressources">Ressources</a>
 </p>
 
 Gnutools is a Python package that provides a few perks:
@@ -26,7 +24,7 @@ Gnutools is a Python package that provides a few perks:
 You can reuse your favorite Python packages such as NumPy, SciPy and Cython to extend ZakuroCache integration.
 
 
-## Modules
+# Modules
 
 At a granular level, Gnutools is a library that consists of the following components:
 
@@ -35,40 +33,11 @@ At a granular level, Gnutools is a library that consists of the following compon
 | **gnutools** | Contains the implementation of Gnutools |
 | **gnutools.audio** | Audio processsing |
 | **gnutools.fs** | File system processing|
-| **gnutools.test** | Unit tests |
+| **gnutools.concurrent** | Concurrent processing|
+| **gnutools.grid** | Grid search|
+| **gnutools.remote** | Download files from gdrive |
+| **gnutools.tests** | Unit tests |
 | **gnutools.utils** | Utilitaries |
-
-
-
-## Code design
-* We recommend using Docker for dev and production. Therefore we encourage its usage all other the repo.
-* We have `vanilla` and `sandbox` environment. 
-  * `Vanilla` refers to a prebuilt docker image that already contains system dependencies.
-  * `Sandbox` referes a predbuilt docker image that contains the code of this repo.
-* Semantic versioning https://semver.org/ . We commit fix to `a.b.x`, features to `a.x.c` and stable release (master) to `x.b.c`. 
-* PR are done to `dev` and reviewed for additional features. This should only be reviewed by the engineers in the team.
-* PR are done to `master` for official (internal) release of the codes. This should be reviewed by the maximum number of engineers.   
-* The ETL jobs are scatter accross sequential refinement of the data `landing/bronze/silver/gold` 
-* Modules and scripts: Any piece of code that can of use for parent module modules should be moved at a higher level. 
-  * eg: `functional.py` contains common funtions for `etl.bronze` and `etl.silver`
-```
-...
-├── etl
-│   ├── bronze
-│   │   ├── __init__.py
-│   │   └── __main__.py
-│   ├── functional.py
-│   ├── __init__.py
-│   └── landing
-│       ├── __init__.py
-│       └── __main__.py
-├── functional.py
-├── __init__.py
-...
-```
-* Modules should ideally contain a `__main__.py` that demo an exeution of the module
-  * `etl/bronze/__main__.py` describes an etl job for the creation of the bronze parition
-  * `trainer/__main__.py` describes the training pipeline
 
 
 
@@ -86,11 +55,12 @@ setup(
         "gnutools.concurrent",
         "gnutools.fs",
         "gnutools.grid",
+        "gnutools.remote",
         "gnutools.tests",
         "gnutools.utils",
     ],
     long_description="".join(open("README.md", "r").readlines()),
-    long_description_content_type='text/markdown',
+    long_description_content_type="text/markdown",
     include_package_data=True,
     url="https://github.com/JeanMaximilienCadic/gnutools-python",
     license="MIT",
@@ -104,11 +74,17 @@ setup(
         "License :: OSI Approved :: MIT License",
     ],
 )
+
 ```
 
-## How to use
-To clone and run this application, you'll need [Git](https://git-scm.com) and [ https://docs.docker.com/docker-for-mac/install/]( https://docs.docker.com/docker-for-mac/install/) and Python installed on your computer. 
-From your command line:
+# Installing the application
+To clone and run this application, you'll need the following installed on your computer:
+- [Git](https://git-scm.com)
+- Docker Desktop
+   - [Install Docker Desktop on Mac](https://docs.docker.com/docker-for-mac/install/)
+   - [Install Docker Desktop on Windows](https://docs.docker.com/desktop/install/windows-install/)
+   - [Install Docker Desktop on Linux](https://docs.docker.com/desktop/install/linux-install/)
+- [Python](https://www.python.org/downloads/)
 
 Install the package:
 ```bash
@@ -119,7 +95,7 @@ git clone https://github.com/JeanMaximilienCadic/gnutools-python
 cd gnutools-python
 ```
 
-## Makefile
+# Makefile commands
 Exhaustive list of make commands:
 ```
 install_wheels
@@ -132,26 +108,33 @@ push_container_vanilla
 pull_container_vanilla
 pull_container_sandbox
 build_vanilla
-clean
 build_wheels
 auto_branch 
 ```
+# Environments
+
 ## Docker
-(\* recommended)
+
+> **Note**
+> 
+> Running this application by using Docker is recommended.
 
 To build and run the docker image
 ```
 make build
-make docker_run_sandbox_cpu
+make sandbox
 ```
 
 ## PythonEnv
-(\* not recommended)
+
+> **Warning**
+> 
+> Running this application by using PythonEnv is possible but *not* recommended.
 ```
 make install_wheels
 ```
 
-## Benchmark
+# Running the application
 * Pathlib `10.1s` to scan `856631` files
 ```python
 from pathlib import Path
@@ -165,7 +148,7 @@ results = listfiles("/mnt/hdd/backup/ASR", [".wav"])
 ```
 
 
-## Ressources
+# Ressources
 * Vanilla:  https://en.wikipedia.org/wiki/Vanilla_software
 * Sandbox: https://en.wikipedia.org/wiki/Sandbox_(software_development)
 * All you need is docker: https://www.theregister.com/2014/05/23/google_containerization_two_billion/
