@@ -1,4 +1,5 @@
 from setuptools import setup
+
 from gnutools import __version__
 
 setup(

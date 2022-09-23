@@ -5,3 +5,4 @@ tabulate
 rich
 pandas
 tqdm
+gdown

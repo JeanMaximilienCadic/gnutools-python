@@ -1,26 +1,26 @@
-from gnutools.fs import parent, listfiles
 import os
+import zipfile
+
+import gdown
+
+from gnutools import fs
 
 
-def gdrivezip(gdrive_filename, output_dir=None):
-    """_summary_
-
-    Args:
-        gdrive_filename (_type_): _description_
-        output_dir (_type_, optional): _description_. Defaults to None.
-
-    Returns:
-        _type_: _description_
-    """
-    assert gdrive_filename.startswith("gdrive://")
-    gdrive_id = gdrive_id = gdrive_filename.split("gdrive://")[1]
+def gdrive(gdrive_uri, output_dir=None):
+    assert gdrive_uri.startswith("gdrive://")
+    gdrive_id = gdrive_uri.split("gdrive://")[1]
     output_dir = f"/tmp/{gdrive_id}" if output_dir is None else output_dir
     if not os.path.exists(output_dir):
-        zip_file = f"{output_dir}.zip"
-        os.makedirs(parent(output_dir), exist_ok=True)
-        command = f"wget --no-check-certificate 'https://docs.google.com/uc?export=download&id={gdrive_id}' -O {zip_file} && \
-        unzip {zip_file} -d {output_dir}"
-        os.system(command)
-        assert os.path.exists(output_dir)
-    return listfiles(output_dir)
+        os.makedirs(output_dir, exist_ok=True)
+        output_file = f"/tmp/.{gdrive_id}"
+        gdown.download(f"https://drive.google.com/uc?id={gdrive_id}", output_file)
+        try:
+            with zipfile.ZipFile(output_file, "r") as zObject:
+                zObject.extractall(output_dir)
+            os.system(f"rm -r {output_file}")
+        except zipfile.BadZipFile:
+            os.system(f"mv {output_file} {output_dir}/{gdrive_id}")
+    return fs.listfiles(output_dir)
 
+
+gdrivezip = gdrive

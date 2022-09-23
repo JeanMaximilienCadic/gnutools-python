@@ -7,6 +7,7 @@ from argparse import Namespace
 import yaml
 import re
 
+
 def RecNamespace(d):
     results = {}
     for k, v in d.items():
@@ -23,6 +24,7 @@ def RecDict(d):
             v = RecDict(v)
         results[k] = v
     return dict(results)
+
 
 def system(command):
     """
@@ -43,7 +45,7 @@ def json_labels(labels_path, normalizer=None):
     """
     # Load the labels
     with open(os.path.realpath(labels_path)) as label_file:
-        labels = str(' '.join(json.load(label_file)))
+        labels = str(" ".join(json.load(label_file)))
         labels = normalizer(labels) if normalizer is not None else labels
         labels = labels.split(" ")
         labels = [l for l in labels if len(l) > 0]
@@ -61,7 +63,7 @@ def inverse_dict(root=None, filters=None, array=None, exclude=None):
     :param exclude: filterss or keywords to exclude in the search
     :return dict:
     """
-    assert ((root is not None) | (array is not None))
+    assert (root is not None) | (array is not None)
     _idict = {}
     if array is not None:
         for f in array:
@@ -74,7 +76,7 @@ def inverse_dict(root=None, filters=None, array=None, exclude=None):
                     condition = False
             if condition:
                 for file in files:
-                    if ((contain_filter(file, filters)) | (filters is None)):
+                    if (contain_filter(file, filters)) | (filters is None):
                         if exclude is None:
                             _idict[file] = dir
                         elif not contain_filter(file, exclude):
@@ -100,7 +102,11 @@ def regroup(entries, index=0):
         except:
             d[key] = [f[:]]
     for key, values in d.items():
-        d[key] = list(np.array(values).reshape(-1, ))
+        d[key] = list(
+            np.array(values).reshape(
+                -1,
+            )
+        )
     return d
 
 
@@ -112,7 +118,7 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     :param chars:
     :return string:
     """
-    return ''.join(random.choice(chars) for _ in range(size))
+    return "".join(random.choice(chars) for _ in range(size))
 
 
 # Gather all files together
@@ -135,22 +141,31 @@ def regroup_by_parent(dir_data, patterns=["*"]):
             data[parent(file)] = [file]
     return data
 
+
 def load_yaml(filepath):
     conf = yaml.load(open(filepath, "r"), Loader=yaml.FullLoader)
+
     def replace_variables(d, v):
-        if type(v)==str and v.__contains__("*"):
+        if type(v) == str and v.__contains__("*"):
             condition = True
-            while condition:    
+            while condition:
                 try:
                     start = [a for a in re.finditer("{{ *", v)][0]
                     stop = [a for a in re.finditer(" }}", v)][0]
-                    v = v.replace(v[start.start(0):stop.end(0)], str(conf[v[start.end(0)+1:stop.start(0)]]))
+                    v = v.replace(
+                        v[start.start(0) : stop.end(0)],
+                        str(conf[v[start.end(0) + 1 : stop.start(0)]]),
+                    )
                 except:
-                    condition=False
+                    condition = False
         return v
 
-            
-    for k, v in conf.items():
-        conf[k] = replace_variables(conf, v)
-        
-    return RecNamespace(conf)
+    def convert_dict(conf):
+        for k, v in conf.items():
+            if type(v) == dict:
+                conf[k] = convert_dict(v)
+            else:
+                conf[k] = replace_variables(conf, v)
+        return conf
+
+    return RecNamespace(convert_dict(conf))
