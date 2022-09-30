@@ -1,8 +1,0 @@
-pyYaml
-numpy
-rich
-tabulate
-rich
-pandas
-tqdm
-gdown
