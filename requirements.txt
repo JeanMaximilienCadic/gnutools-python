@@ -6,3 +6,4 @@ rich
 pandas
 tqdm
 gdown
+h5py

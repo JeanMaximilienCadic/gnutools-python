@@ -1,12 +1,12 @@
 from datetime import timedelta
 from rich.progress import Progress
-from concurrent.futures import ProcessPoolExecutor, as_completed
 import time
 from tqdm import tqdm
 
 
 class Pool:
     def __init__(self, *args, silent=False, **kwargs):
+        from concurrent.futures import ProcessPoolExecutor, as_completed
         self.silent = silent
         self._e = ProcessPoolExecutor(*args, **kwargs).__enter__()
         self._fs = []
