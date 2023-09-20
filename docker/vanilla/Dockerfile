@@ -1,4 +1,4 @@
-FROM python:3.10.10-slim
+FROM python:3.12.0rc2-slim
 
 RUN apt update  && \
     apt install make -y 
