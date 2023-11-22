@@ -1,4 +1,4 @@
-FROM python:3.10.10-slim
+FROM python:slim-bookworm
 
 RUN apt update  && \
     apt install make -y 
