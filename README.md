@@ -16,6 +16,16 @@
   <a href="#ressources">Ressources</a>
 </p>
 
+![](
+)
+
+<p align="center">
+        <img alt="Build" src="https://github.com/JeanMaximilienCadic/gnutools-python/actions/workflows/docker-image.yml/badge.svg?branch=master">
+        <img alt="GitHub" src="https://img.shields.io/github/license/JeanMaximilienCadic/gnutools-python.svg?color=blue">
+        <img alt="GitHub release" src="https://img.shields.io/github/release/JeanMaximilienCadic/gnutools-python.svg">
+</p>
+
+
 Gnutools is a Python package that provides a few perks:
 - Up to 3x speedup processing the disk by using system commands instead of python libs.
 - A simple interface with optimized command executed from the system.
